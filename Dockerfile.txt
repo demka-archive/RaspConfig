@@ -1,0 +1,31 @@
+# Demka's base Dockerfile
+# https://github.com/GeorgiyDemo
+# Yep, Ubuntu :с
+
+FROM ubuntu
+RUN echo 'We are ready..'
+
+# Updating base system
+RUN \
+	apt-get update >> /dev/null && apt-get -y upgrade && \ 
+    apt-get install -y language-pack-en && \
+    locale-gen en_US.UTF-8 && \
+    dpkg-reconfigure locales
+
+# Installing packages
+RUN \
+ 	apt-get install -y apt-utils && \
+	apt-get install -y sudo screenfetch wget moreutils curl man unzip htop git zsh && \
+	apt-get install -y build-essential
+
+# Installing ZSH
+RUN \
+	git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh && \
+	cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc && \
+	chsh -s /bin/zsh
+
+RUN echo 'You are welcome <3'
+
+WORKDIR /root
+
+CMD ["zsh"]
